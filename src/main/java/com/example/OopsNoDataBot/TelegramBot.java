@@ -2,11 +2,9 @@ package com.example.OopsNoDataBot;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,30 +13,31 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
 
     private final OpenAiChatModel chatModel;
     private final String botToken;
     private final String botUsername;
-    
-    @Value("${ai.url}")
-    private String aiUrl;
-    
-    @Value("${ai.model}")
-    private String aiModel;
-    
-    @Value("${ai.temperature:0.7}")
-    private Double aiTemperature;
-    
-    @Value("${ai.max-tokens:1000}")
-    private Integer aiMaxTokens;
+    private final String aiUrl;
+    private final String aiModel;
+    private final Double aiTemperature;
+    private final Integer aiMaxTokens;
 
-    public TelegramBot(DefaultBotOptions options, String botToken, String botUsername, OpenAiChatModel chatModel) {
+    public TelegramBot(DefaultBotOptions options, String botToken, String botUsername, OpenAiChatModel chatModel,
+                       String aiUrl, String aiModel, Double aiTemperature, Integer aiMaxTokens) {
         super(options, botToken);
         this.botToken = botToken;
         this.botUsername = botUsername;
         this.chatModel = chatModel;
+        this.aiUrl = aiUrl;
+        this.aiModel = aiModel;
+        this.aiTemperature = aiTemperature;
+        this.aiMaxTokens = aiMaxTokens;
+        
+        log.info("AI URL: {}", aiUrl);
+        log.info("AI Model: {}", aiModel);
+        log.info("AI Temperature: {}", aiTemperature);
+        log.info("AI Max Tokens: {}", aiMaxTokens);
     }
 
     @SneakyThrows

@@ -17,12 +17,25 @@ public class TelegramBotConfig {
     
     @Value("${bot.username}")
     private String botUsername;
+    
+    @Value("${ai.url}")
+    private String aiUrl;
+    
+    @Value("${ai.model}")
+    private String aiModel;
+    
+    @Value("${ai.temperature:0.7}")
+    private Double aiTemperature;
+    
+    @Value("${ai.max-tokens:1000}")
+    private Integer aiMaxTokens;
 
     @Bean
     @SneakyThrows
     public TelegramBot telegramBot(TelegramBotsApi telegramBotsApi, OpenAiChatModel chatModel) {
         DefaultBotOptions botOptions = new DefaultBotOptions();
-        var bot = new TelegramBot(botOptions, botToken, botUsername, chatModel);
+        var bot = new TelegramBot(botOptions, botToken, botUsername, chatModel, 
+                                   aiUrl, aiModel, aiTemperature, aiMaxTokens);
         telegramBotsApi.registerBot(bot);
         return bot;
     }
