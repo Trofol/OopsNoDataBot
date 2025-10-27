@@ -1,7 +1,6 @@
 package com.example.OopsNoDataBot;
 
 import lombok.SneakyThrows;
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,25 +16,12 @@ public class TelegramBotConfig {
     
     @Value("${bot.username}")
     private String botUsername;
-    
-    @Value("${ai.url}")
-    private String aiUrl;
-    
-    @Value("${ai.model}")
-    private String aiModel;
-    
-    @Value("${ai.temperature:0.7}")
-    private Double aiTemperature;
-    
-    @Value("${ai.max-tokens:1000}")
-    private Integer aiMaxTokens;
 
     @Bean
     @SneakyThrows
-    public TelegramBot telegramBot(TelegramBotsApi telegramBotsApi, OpenAiChatModel chatModel) {
+    public TelegramBot telegramBot(TelegramBotsApi telegramBotsApi, AIService aiService) {
         DefaultBotOptions botOptions = new DefaultBotOptions();
-        var bot = new TelegramBot(botOptions, botToken, botUsername, chatModel, 
-                                   aiUrl, aiModel, aiTemperature, aiMaxTokens);
+        var bot = new TelegramBot(botOptions, botToken, botUsername, aiService);
         telegramBotsApi.registerBot(bot);
         return bot;
     }
