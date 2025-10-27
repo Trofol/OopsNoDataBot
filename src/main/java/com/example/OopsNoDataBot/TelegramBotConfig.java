@@ -1,6 +1,7 @@
 package com.example.OopsNoDataBot;
 
 import lombok.SneakyThrows;
+import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,16 +14,18 @@ public class TelegramBotConfig {
 
     @Value("${bot.token}")
     private String botToken;
+    
+    @Value("${bot.username}")
+    private String botUsername;
 
     @Bean
     @SneakyThrows
-    public TelegramBot telegramBot(TelegramBotsApi telegramBotsApi) {
+    public TelegramBot telegramBot(TelegramBotsApi telegramBotsApi, OpenAiChatModel chatModel) {
         DefaultBotOptions botOptions = new DefaultBotOptions();
-        var bot =  new TelegramBot(botOptions, botToken);
+        var bot = new TelegramBot(botOptions, botToken, botUsername, chatModel);
         telegramBotsApi.registerBot(bot);
         return bot;
     }
-
 
     @Bean
     @SneakyThrows

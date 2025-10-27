@@ -1,0 +1,30 @@
+spring.application.name=OopsNoDataBot
+spring.main.allow-bean-definition-overriding=true
+server.port=8081
+
+# Telegram Bot Configuration
+# Получите токен бота у @BotFather в Telegram
+bot.token=YOUR_BOT_TOKEN_HERE
+bot.username=YOUR_BOT_USERNAME
+
+# AI Configuration
+spring.ai.openai.api-key=noop-api-key
+spring.ai.openai.base-url=http://localhost:1234
+spring.ai.openai.chat.options.model=deepseek/deepseek-r1-0528-qwen3-8b
+spring.ai.openai.chat.options.temperature=0.7
+spring.ai.openai.chat.options.max-tokens=1000
+
+# HTTP клиент настройки для стабильности
+spring.ai.openai.client.connection-timeout=30000
+spring.ai.openai.client.read-timeout=60000
+
+# AI settings для TelegramBot
+ai.url=http://localhost:1234/v1/chat/completions
+ai.model=deepseek/deepseek-r1-0528-qwen3-8b
+ai.temperature=0.7
+ai.max-tokens=1000
+
+# Логирование
+logging.level.com.example.OopsNoDataBot=INFO
+logging.level.org.springframework.ai.openai=INFO
+
